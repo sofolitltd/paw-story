@@ -41,7 +41,7 @@ const TermsAndConditions = () => {
       <h2 className="text-2xl font-bold mb-4 mt-6">Facebook Interactions</h2>
 
       <p className="mb-4">
-        When interacting with our Facebook page, you agree to abide by Facebook's terms of service and community guidelines. We are not responsible for any content posted by users on our Facebook page.
+        When interacting with our Facebook page, you agree to abide by Facebooks terms of service and community guidelines. We are not responsible for any content posted by users on our Facebook page.
       </p>
 
       <h2 className="text-2xl font-bold mb-4 mt-6">Intellectual Property</h2>

@@ -57,7 +57,6 @@ const ContactUs = () => {
           width="100%"
           height="400"
           style={{ border: 0 }} // Added inline style to remove default border
-          allowFullScreen=""
           loading="lazy"
         ></iframe>
       </div>

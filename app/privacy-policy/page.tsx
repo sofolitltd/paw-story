@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       </h1>
 
       <p className="mb-4">
-        This Privacy Policy describes how Paw Story ("we," "us," or "our")
+        This Privacy Policy describes how Paw Story (we, us, or our)
         collects, uses, and shares your personal information when you visit or
         make a purchase from our website or interact with us through other
         channels, such as our Facebook page. We are located in Chittagong,
@@ -31,21 +31,21 @@ const PrivacyPolicy = () => {
         The types of information we may collect include:
         <ul>
           <li>
-            **Personal Information:** Name, contact information (phone number,
+            Personal Information: Name, contact information (phone number,
             email address, address), and any other information you provide to
             us.
           </li>
           <li>
-            **Transaction Information:** Details of purchases you make,
+            Transaction Information: Details of purchases you make,
             including products purchased, prices, and payment information.
           </li>
           <li>
-            **Website Usage Information:** If you use our website, we may
+            Website Usage Information: If you use our website, we may
             collect information about your browsing activity, IP address, device
             information, and cookies.
           </li>
           <li>
-            **Facebook Interaction Information:** If you interact with our
+            Facebook Interaction Information: If you interact with our
             Facebook page, we may collect information about your public profile,
             posts, comments, and messages.
           </li>

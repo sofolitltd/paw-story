@@ -1,7 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Metadata } from "next/server"; // Import Metadata
+import { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
 //
 const posts = [
@@ -127,12 +131,11 @@ const posts = [
   },
 ];
 
-export async function generateMetadata({
+export const generateMetadata = async ({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const post = posts.find((p) => p.slug === params.slug);
+}: Props): Promise<Metadata> => {
+  const slug = (await params).slug;
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     return {
@@ -156,13 +159,15 @@ export async function generateMetadata({
       card: "summary_large_image", // Or 'summary' if no large image
       title: post.title,
       description: post.excerpt,
-      image: post.image, // Add image URL
     },
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = posts.find((p) => p.slug === params.slug);
+
+// 
+export default async function BlogPostPage({ params }: Props ) {
+  const slug = (await params).slug;
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     return <div className="text-center text-xl p-8">Blog Post Not Found!</div>;
@@ -226,7 +231,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               {recentPosts.map((recentPost) => (
                 <li
                   key={recentPost.id}
-                  className="mb-2 border-b border-gray-200 pb-2"
+                  className="md-2 border-b border-gray-200 pb-2"
                 >
                   <Link
                     href={`/blog/${recentPost.slug}`}

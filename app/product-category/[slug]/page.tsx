@@ -36,37 +36,86 @@ const categories = [
 
 //
 const products = [
-  { id: 1, name: "Cat Food", image: "/images/cat-food.png", price: "$15.99", category: "cat-food" },
-  { id: 2, name: "Cat Litter", image: "/images/cat-litter.png", price: "$12.99", category: "cat-litter" },
-  { id: 3, name: "Cat Collar", image: "/images/cat-collar.png", price: "$8.99", category: "cat-collar" },
-  { id: 4, name: "Cat Bed", image: "/images/cat-accessories.png", price: "$25.99", category: "cat-accessories" },
-  { id: 5, name: "Cat Food", image: "/images/cat-food.png", price: "$15.99", category: "cat-food" },
-  { id: 6, name: "Cat Litter", image: "/images/cat-litter.png", price: "$12.99", category: "cat-litter" },
-  { id: 7, name: "Cat Collar", image: "/images/cat-collar.png", price: "$8.99", category: "cat-collar" },
-  { id: 8, name: "Cat Bed", image: "/images/cat-accessories.png", price: "$25.99", category: "cat-accessories" },
+  {
+    id: 1,
+    name: "Cat Food",
+    image: "/images/cat-food.png",
+    price: "$15.99",
+    category: "cat-food",
+  },
+  {
+    id: 2,
+    name: "Cat Litter",
+    image: "/images/cat-litter.png",
+    price: "$12.99",
+    category: "cat-litter",
+  },
+  {
+    id: 3,
+    name: "Cat Collar",
+    image: "/images/cat-collar.png",
+    price: "$8.99",
+    category: "cat-collar",
+  },
+  {
+    id: 4,
+    name: "Cat Bed",
+    image: "/images/cat-accessories.png",
+    price: "$25.99",
+    category: "cat-accessories",
+  },
+  {
+    id: 5,
+    name: "Cat Food",
+    image: "/images/cat-food.png",
+    price: "$15.99",
+    category: "cat-food",
+  },
+  {
+    id: 6,
+    name: "Cat Litter",
+    image: "/images/cat-litter.png",
+    price: "$12.99",
+    category: "cat-litter",
+  },
+  {
+    id: 7,
+    name: "Cat Collar",
+    image: "/images/cat-collar.png",
+    price: "$8.99",
+    category: "cat-collar",
+  },
+  {
+    id: 8,
+    name: "Cat Bed",
+    image: "/images/cat-accessories.png",
+    price: "$25.99",
+    category: "cat-accessories",
+  },
 ];
 
+//
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
 // Dynamic metadata for SEO
-export async function generateMetadata({
+export const generateMetadata = async ({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const category = await categories.find((cat) => cat.slug === params.slug);
+}: Props): Promise<Metadata> => {
+  const slug = (await params).slug;
+  const category = categories.find((cat) => cat.slug === slug);
 
   return {
     title: category ? category.name : "Category Not Found",
     description: category ? category.description : "No description available",
   };
-}
+};
 
 // Dynamic details page
-export default function ProductDetailsPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const category = categories.find((cat) => cat.slug === params.slug);
+export default async function ProductDetailsPage({ params }: Props) {
+  const slug = (await params).slug;
+  const category = categories.find((cat) => cat.slug === slug);
 
   if (!category) {
     return (
@@ -74,10 +123,11 @@ export default function ProductDetailsPage({
     );
   }
 
-  // 
+  //
   // Filter products by category
-  const filteredProducts = products.filter((product) => product.category === category.slug);
-
+  const filteredProducts = products.filter(
+    (product) => product.category === category.slug
+  );
 
   return (
     <div className="py-6">
