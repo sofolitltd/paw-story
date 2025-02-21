@@ -2,12 +2,13 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Heart, ShoppingBag } from "iconsax-react";
+import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
 interface Product {
   id: number;
-  name: string;
+  title: string;
+  slug: string;
   image: string;
   price: string;
 }
@@ -16,9 +17,7 @@ interface ProductSliderProps {
   products: Product[];
 }
 
-const CatFoodProducts: React.FC<ProductSliderProps> = ({
-  products,
-}) => {
+const CatFoodProducts: React.FC<ProductSliderProps> = ({ products }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -36,7 +35,7 @@ const CatFoodProducts: React.FC<ProductSliderProps> = ({
           scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
         }
       }
-    }, 8000);
+    }, 7500);
 
     return () => clearInterval(interval);
   }, []);
@@ -50,50 +49,69 @@ const CatFoodProducts: React.FC<ProductSliderProps> = ({
   };
 
   return (
-    <div className="relative w-full overflow-hidden py-4 mt-8">
+    <div className="relative w-full overflow-hidden py-4">
       {/* Title */}
       <h2 className="text-2xl font-semibold mb-4">CAT FOOD</h2>
 
       <div
-        className="relative"
+        className="relative "
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Products Container */}
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto gap-6 scrollbar-hide snap-x snap-mandatory scroll-smooth px-4 py-4"
+          className="flex overflow-x-auto gap-4 md:gap-6 lg:gap-6 scrollbar-hide snap-x snap-mandatory scroll-smooth px-4 py-4 "
         >
           {products.map((product) => (
             <div
-              key={product.id}
-              className="relative min-w-[280px] min-h-[280px] bg-white p-4 rounded-lg shadow-md snap-start transition-transform hover:shadow-md hover:-translate-y-1.5  border "
+              key={product.slug}
+              className="relative bg-white rounded-lg hover:shadow-md border group flex flex-col"
             >
-              {/* Heart Icon Positioned Top Right */}
-              <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-md">
-                <Heart color="#ef4444" size={20} />
-              </div>
-
-              {/* Product Image */}
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={260}
-                height={260}
-                className="object-contain w-full  rounded-lg"
-              />
-
-              {/* Product Name */}
-              <h3 className="text-md font-semibold mt-2">{product.name}</h3>
-
-              {/* Price and Cart Button */}
-              <div className="flex justify-between items-center mt-2">
-                <p className="text-xl font-bold text-indigo-800">
-                  {product.price}
-                </p>
-                <div className="rounded-full border p-2 cursor-pointer hover:bg-gray-100">
-                  <ShoppingBag color="#000" size={20} />
+              {/* Product Link */}
+              <Link
+                href={`/product/${product.slug}`}
+                className="block flex-grow"
+              >
+                {/* Added flex-grow */}
+                <div className="min-w-[240px] bg-slate-50 group-hover:bg-[#F6EEE4] transition-colors duration-300 rounded-tl-md rounded-tr-md overflow-hidden p-4">
+                  {/* Added overflow-hidden */}
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    width={200}
+                    height={200} // Reduced height
+                    className="object-cover w-full" // Changed to object-cover
+                  />
                 </div>
+                <div className="p-3">
+                  <h3 className="text-sm font-semibold line-clamp-2">
+                    {product.title}
+                  </h3>
+
+                  <div className="flex justify-between items-center mt-2">
+                    <p className="text-lg font-bold text-indigo-800">
+                      {product.price}
+                    </p>
+
+                    <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hidden group-hover:flex">
+                      <Heart color="#ef4444" size={20} />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Add to Cart Link (Separated) */}
+              <div className=" px-3 pb-3">
+                <Link href="/cart" className="block">
+                  <div
+                    className="flex gap-2 items-center justify-center rounded-md border border-red-500 p-2 cursor-pointer transition-all duration-300
+                    text-red-500 hover:bg-red-500 hover:text-white group-hover:bg-red-500 group-hover:text-white"
+                  >
+                    <ShoppingCart size={20} />
+                    <p>Add to Cart</p>
+                  </div>
+                </Link>
               </div>
             </div>
           ))}

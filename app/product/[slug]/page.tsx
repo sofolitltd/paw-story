@@ -1,8 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
+import { Metadata } from "next";
 
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+//
 const products = [
   {
     id: 1,
@@ -86,64 +92,74 @@ const products = [
   },
 ];
 
-export default function Shop() {
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const slug = (await params).slug;
+  const product = products.find((p) => p.slug === slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The requested product could not be found.",
+    };
+  }
+
+  return {
+    title: product.title,
+    description: product.description,
+    openGraph: {
+      // For better social sharing
+      title: product.title,
+      description: product.description,
+      images: [{ url: product.image }], // Add image URL if available
+      type: "article", // Indicate this is an article
+    },
+    twitter: {
+      // Twitter Card metadata
+      card: "summary_large_image", // Or 'summary' if no large image
+      title: product.title,
+      description: product.description,
+    },
+  };
+};
+
+//
+export default async function ProductDetails({ params }: Props) {
+  const slug = (await params).slug;
+  const product = products.find((p) => p.slug === slug);
+
+  if (!product) {
+    return <div className="text-center text-xl p-8">Product Not Found!</div>;
+  }
+
   return (
-    <div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-6 py-8">
-        {products.map((product) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+      <Image
+        src={product.image}
+        alt={product.title}
+        height={400}
+        width={400}
+      ></Image>
+
+      <div className="">
+        <h1 className="text-lg font-bold mt-2 mb-2">{product.title}</h1>
+        <p className="text-sm font-normal mb-4">{product.description}</p>
+
+        <p className="text-lg font-bold mb-4">{product.price}</p>
+
+        <p className="text-sm font-normal mb-6">
+          Categorries: {product.category}
+        </p>
+
+        <Link href="/cart" className="block">
           <div
-            key={product.slug}
-            className="relative bg-white rounded-lg hover:shadow-md border group flex flex-col"
+            className="flex gap-2 items-center justify-center rounded-md border border-red-500 py-2 px-8 cursor-pointer transition-all duration-300 text-red-500 hover:bg-red-500 hover:text-white w-fit"
           >
-            {" "}
-            {/* Added flex flex-col */}
-            {/* Product Link */}
-            <Link href={`/product/${product.slug}`} className="block flex-grow">
-              {" "}
-              {/* Added flex-grow */}
-              <div className="bg-slate-50 group-hover:bg-[#F6EEE4] transition-colors duration-300 rounded-tl-md rounded-tr-md overflow-hidden p-4">
-                {" "}
-                {/* Added overflow-hidden */}
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  width={200}
-                  height={200} // Reduced height
-                  className="object-cover w-full" // Changed to object-cover
-                />
-              </div>
-              <div className="p-3">
-                <h3 className="text-sm font-semibold line-clamp-2">
-               
-                  {product.title}
-                </h3>
-
-                <div className="flex justify-between items-center mt-2">
-                  <p className="text-lg font-bold text-indigo-800">
-                    {product.price}
-                  </p>
-
-                  <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hidden group-hover:flex">
-                    <Heart color="#ef4444" size={20} />
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            {/* Add to Cart Link (Separated) */}
-            <div className=" px-3 pb-3">
-              <Link href="/cart" className="block">
-                <div
-                  className="flex gap-2 items-center justify-center rounded-md border border-red-500 p-2 cursor-pointer transition-all duration-300
-                    text-red-500 hover:bg-red-500 hover:text-white group-hover:bg-red-500 group-hover:text-white"
-                >
-                  <ShoppingCart size={20} />
-                  <p>Add to Cart</p>
-                </div>
-              </Link>
-            </div>
+            <ShoppingCart size={20} />
+            <p>Add to Cart</p>
           </div>
-        ))}
+        </Link>
       </div>
     </div>
   );

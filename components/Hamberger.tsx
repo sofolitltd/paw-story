@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { HambergerMenu, CloseSquare } from "iconsax-react";
 import Link from "next/link";
@@ -6,6 +6,8 @@ import Image from "next/image";
 
 export default function Hamburger() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const closeDrawer = () => setIsDrawerOpen(false); // Helper function
 
   return (
     <>
@@ -22,32 +24,45 @@ export default function Hamburger() {
       >
         {/* Close Button */}
         <div className="flex justify-between items-center p-4 border-b">
-        <Image src="/logo.svg" alt="Pwa Story Logo" height={24} width={48} />
-          
-          <button onClick={() => setIsDrawerOpen(false)}>
+          <Link href="/" onClick={closeDrawer}> {/* Close on logo click */}
+            <Image src="/logo.svg" alt="Pwa Story Logo" height={24} width={48} />
+          </Link>
+
+          <button onClick={closeDrawer}> {/* Close on X click */}
             <CloseSquare color="#101010" size={26} variant="Bold" />
           </button>
         </div>
 
         {/* Menu Items */}
         <nav className="p-4 flex flex-col space-y-1">
-
-        <Link href="/shop" className="hover:bg-gray-100 p-2 rounded">
-           Shop
+          <Link href="/shop" className="hover:bg-gray-100 p-2 rounded" onClick={closeDrawer}>
+            Shop
           </Link>
-          <Link href="/categories/cat-food" className="hover:bg-gray-100 p-2 rounded">
+          <Link
+            href="/product-category/cat-food"
+            className="hover:bg-gray-100 p-2 rounded"
+            onClick={closeDrawer}
+          >
             Cat Food
           </Link>
-          <Link href="/categories/cat-litter" className="hover:bg-gray-100 p-2 rounded">
+          <Link
+            href="/product-category/cat-litter"
+            className="hover:bg-gray-100 p-2 rounded"
+            onClick={closeDrawer}
+          >
             Cat Litter
           </Link>
-          <Link href="/categories/cat-accessories" className="hover:bg-gray-100 p-2 rounded">
+          <Link
+            href="/product-category/cat-accessories"
+            className="hover:bg-gray-100 p-2 rounded"
+            onClick={closeDrawer}
+          >
             Cat Accessories
           </Link>
-          <Link href="/blog" className="hover:bg-gray-100 p-2 rounded">
+          <Link href="/blog" className="hover:bg-gray-100 p-2 rounded" onClick={closeDrawer}>
             Blog
           </Link>
-          <Link href="/contact-us" className="hover:bg-gray-100 p-2 rounded">
+          <Link href="/contact-us" className="hover:bg-gray-100 p-2 rounded" onClick={closeDrawer}>
             Contact Us
           </Link>
         </nav>
@@ -57,7 +72,7 @@ export default function Hamburger() {
       {isDrawerOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
-          onClick={() => setIsDrawerOpen(false)}
+          onClick={closeDrawer} // Close on overlay click
         ></div>
       )}
     </>

@@ -30,7 +30,7 @@ const ContactUs = () => {
           <Facebook size="48" color="#6366f1" />
           <div className="text-center md:text-left mt-4">
             <Link
-              href="https://fb.com/PawStorry"
+              href="https://www.facebook.com/Pawstoryy/"
               target="_blank"
               className="text-lg hover:text-indigo-500 hover:underline"
             >

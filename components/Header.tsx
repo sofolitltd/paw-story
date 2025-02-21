@@ -19,11 +19,11 @@ export default function Header() {
       <div className="bg-indigo-500 w-full">
         <div className="h-10 text-white flex items-center container mx-auto max-w-7xl px-4 justify-between overflow-hidden">
           {/* Contact Info */}
-          <div className="flex space-x-4 flex-wrap">
+          <div className="flex space-x-4 flex-wrap text-sm">
             <Link href="tel:+8801854666866">
               <div className="flex gap-1 items-center">
                 <Call color="#eee" variant="Bold" size={16} />
-                <p>01854666866</p>
+                <p >01854666866</p>
               </div>
             </Link>
             <div className="hidden md:block">|</div>
@@ -43,9 +43,9 @@ export default function Header() {
           </div>
 
           {/* Social */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 hidden md:flex lg:flex">
             <Link href="https://facebook.com/PawStoryy">
-              <Facebook color="#eee" variant="Bold" size={22} />
+              <Facebook color="#eee" variant="Bold" size={20} />
             </Link>
           </div>
         </div>

@@ -185,14 +185,14 @@ export default async function BlogPostPage({ params }: Props ) {
   return (
     <div className="py-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {" "}
+    
         {/* Grid layout */}
         {/* Left Column (Blog Details) */}
         <div className="md:col-span-2">
-          {" "}
+         
           {/* Takes up 2/3 of the width */}
           <div className="mb-8">
-            {" "}
+        
             {/* Spacing below title */}
             <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
             <div className="mb-4 text-gray-600">
@@ -221,7 +221,7 @@ export default async function BlogPostPage({ params }: Props ) {
         </div>
         {/* Right Column (Recent Posts) */}
         <div className="md:col-span-1">
-          {" "}
+          
           {/* Takes up 1/3 of the width */}
           <div className="bg-white p-4 border rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-6">Recent Posts</h2>
