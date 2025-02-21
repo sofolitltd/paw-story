@@ -1,96 +1,8 @@
-import FeaturedCategory from "@/components/FeaturedCategories";
-import FeaturesProducts from "@/components/FeaturesProducts";
-import CatFoodProducts from "@/components/CatFoodProducts";
-import ImageSlider from "@/components/ImageSlider";
-import Blogs from "@/components/Blogs";
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Metadata } from "next/server"; // Import Metadata
 
-//
-const categories = [
-  {
-    id: 1,
-    name: "Cat Food",
-    image: "/images/cat-food.png",
-    slug: "cat-food",
-  },
-  {
-    id: 2,
-    name: "Cat Litter",
-    image: "/images/cat-litter.png",
-    slug: "cat-litter",
-  },
-  {
-    id: 3,
-    name: "Cat Collar",
-    image: "/images/cat-collar.png",
-    slug: "cat-collar",
-  },
-  {
-    id: 5,
-    name: "Cat Accessories",
-    image: "/images/cat-accessories.png",
-    slug: "cat-accessories",
-  },
-];
-
-const products = [
-  {
-    id: 1,
-    name: "Cat Food",
-    image: "/images/cat-food.png",
-    price: "$15.99",
-    category: "cat-food",
-  },
-  {
-    id: 2,
-    name: "Cat Litter",
-    image: "/images/cat-litter.png",
-    price: "$12.99",
-    category: "cat-litter",
-  },
-  {
-    id: 3,
-    name: "Cat Collar",
-    image: "/images/cat-collar.png",
-    price: "$8.99",
-    category: "cat-collar",
-  },
-  {
-    id: 4,
-    name: "Cat Bed",
-    image: "/images/cat-accessories.png",
-    price: "$25.99",
-    category: "cat-accessories",
-  },
-  {
-    id: 5,
-    name: "Cat Food",
-    image: "/images/cat-food.png",
-    price: "$15.99",
-    category: "cat-food",
-  },
-  {
-    id: 6,
-    name: "Cat Litter",
-    image: "/images/cat-litter.png",
-    price: "$12.99",
-    category: "cat-litter",
-  },
-  {
-    id: 7,
-    name: "Cat Collar",
-    image: "/images/cat-collar.png",
-    price: "$8.99",
-    category: "cat-collar",
-  },
-  {
-    id: 8,
-    name: "Cat Bed",
-    image: "/images/cat-accessories.png",
-    price: "$25.99",
-    category: "cat-accessories",
-  },
-];
 //
 const posts = [
   {
@@ -215,23 +127,135 @@ const posts = [
   },
 ];
 
-export default function Home() {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const post = posts.find((p) => p.slug === params.slug);
+
+  if (!post) {
+    return {
+      title: "Blog Post Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      // For better social sharing
+      title: post.title,
+      description: post.excerpt,
+      images: [{ url: post.image }], // Add image URL if available
+      type: "article", // Indicate this is an article
+    },
+    twitter: {
+      // Twitter Card metadata
+      card: "summary_large_image", // Or 'summary' if no large image
+      title: post.title,
+      description: post.excerpt,
+      image: post.image, // Add image URL
+    },
+  };
+}
+
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
+  const post = posts.find((p) => p.slug === params.slug);
+
+  if (!post) {
+    return <div className="text-center text-xl p-8">Blog Post Not Found!</div>;
+  }
+
+  // Get recent posts (excluding the current post)
+  const recentPosts = posts
+    .filter((p) => p.slug !== post.slug)
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    ) // Sort by date (newest first)
+    .slice(0, 3); // Limit to 3 recent posts
+
   return (
-    <div className=" mt-4 ">
-      {/* slider section */}
-      <ImageSlider />
+    <div className="py-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        {" "}
+        {/* Grid layout */}
+        {/* Left Column (Blog Details) */}
+        <div className="md:col-span-2">
+          {" "}
+          {/* Takes up 2/3 of the width */}
+          <div className="mb-8">
+            {" "}
+            {/* Spacing below title */}
+            <h1 className="text-2xl font-bold mb-4">{post.title}</h1>
+            <div className="mb-4 text-gray-600">
+              <span className="mr-4 border px-2 py-1 bg-indigo-400 text-white rounded-sm">
+                {post.category}
+              </span>
+              <span>{post.publishedAt}</span>
+            </div>
+            <div className="relative mt-10 mb-6">
+              <Image
+                src={post.image}
+                alt={post.title}
+                width={600} // Adjust width as needed
+                height={400} // Adjust height as needed
+                className="object-cover rounded-lg border"
+              />
+            </div>
+            <div className="prose lg:prose-xl">
+              {typeof post.content === "string" ? (
+                <p>{post.content}</p>
+              ) : (
+                post.content
+              )}
+            </div>
+          </div>
+        </div>
+        {/* Right Column (Recent Posts) */}
+        <div className="md:col-span-1">
+          {" "}
+          {/* Takes up 1/3 of the width */}
+          <div className="bg-white p-4 border rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-6">Recent Posts</h2>
 
-      {/* featured categories */}
-      <FeaturedCategory categories={categories} />
+            {/*  */}
+            <ul>
+              {recentPosts.map((recentPost) => (
+                <li
+                  key={recentPost.id}
+                  className="mb-2 border-b border-gray-200 pb-2"
+                >
+                  <Link
+                    href={`/blog/${recentPost.slug}`}
+                    className="block hover:bg-slate-100 rounded-md"
+                  >
+                    <div className=" flex gap-2 items-center">
+                      <Image
+                        src={recentPost.image}
+                        alt={recentPost.title}
+                        width={80} // Adjust width as needed
+                        height={80} // Adjust height as needed
+                        className="object-cover rounded-lg border"
+                      />
 
-      {/*  */}
-      <FeaturesProducts products={products} />
+                      <div className="">
+                        <h1 className="font-medium">{recentPost.title}</h1>
 
-      {/*  */}
-      <CatFoodProducts products={products} />
-
-      {/*  */}
-      <Blogs posts={posts} limit={3} />
+                        <p className="text-sm text-gray-500">
+                          {recentPost.publishedAt}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

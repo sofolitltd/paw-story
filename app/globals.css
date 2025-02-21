@@ -19,3 +19,17 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* globals.css or your global stylesheet */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+/* Optional: Add smooth scrolling */
+.scrollbar-hide {
+  scroll-behavior: smooth; /* For smooth scrolling */
+}
