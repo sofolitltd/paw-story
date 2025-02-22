@@ -4,13 +4,15 @@ import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 
 interface Product {
   id: number;
   title: string;
-  slug: string;
+  price: number;
   image: string;
-  price: string;
+  slug: string;
+  quantity?: number;
 }
 
 interface ProductSliderProps {
@@ -20,6 +22,7 @@ interface ProductSliderProps {
 const FeaturesProducts: React.FC<ProductSliderProps> = ({ products }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const { addToCart } = useCart();
 
   // Infinite Auto Scroll
   useEffect(() => {
@@ -74,7 +77,7 @@ const FeaturesProducts: React.FC<ProductSliderProps> = ({ products }) => {
                 className="block flex-grow"
               >
                 {/* Added flex-grow */}
-                <div className="min-w-[225px] bg-slate-50 group-hover:bg-[#F6EEE4] transition-colors duration-300 rounded-tl-md rounded-tr-md overflow-hidden p-4">
+                <div className="min-w-[240px] bg-slate-50 group-hover:bg-[#F6EEE4] transition-colors duration-300 rounded-tl-md rounded-tr-md overflow-hidden p-4">
                   {/* Added overflow-hidden */}
                   <Image
                     src={product.image}
@@ -90,7 +93,7 @@ const FeaturesProducts: React.FC<ProductSliderProps> = ({ products }) => {
                   </h3>
 
                   <div className="flex justify-between items-center mt-2">
-                    <p className="text-lg font-bold text-indigo-800">
+                    <p className="text-lg font-bold text-indigo-800">৳{" "}
                       {product.price}
                     </p>
 
@@ -101,17 +104,14 @@ const FeaturesProducts: React.FC<ProductSliderProps> = ({ products }) => {
                 </div>
               </Link>
 
-              {/* Add to Cart Link (Separated) */}
-              <div className=" px-3 pb-3">
-                <Link href="/cart" className="block">
-                  <div
-                    className="flex gap-2 items-center justify-center rounded-md border border-red-500 p-2 cursor-pointer transition-all duration-300
-                    text-red-500 hover:bg-red-500 hover:text-white group-hover:bg-red-500 group-hover:text-white"
-                  >
+              {/*  */}
+              <div className=" w-full px-3 pb-3 ">
+                <button onClick={() => addToCart(product)} className="w-full">
+                  <div className="flex gap-2 items-center justify-center rounded-md border border-red-500 p-2 cursor-pointer transition-all duration-300 text-red-500 hover:bg-red-500 hover:text-white group-hover:bg-red-500 group-hover:text-white w-full">
                     <ShoppingCart size={20} />
                     <p>Add to Cart</p>
                   </div>
-                </Link>
+                </button>
               </div>
             </div>
           ))}

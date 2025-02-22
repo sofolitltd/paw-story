@@ -1,5 +1,5 @@
 import FeaturedCategory from "@/components/FeaturedCategories";
-import FeaturesProducts from "@/components/FeaturesProducts";
+import FeaturedProducts from "@/components/FeaturedProducts";
 import CatFoodProducts from "@/components/CatFoodProducts";
 import ImageSlider from "@/components/ImageSlider";
 import Blogs from "@/components/Blogs";
@@ -39,7 +39,7 @@ const products = [
     id: 1,
     title: "Purrfect Feast Cat Food (Chicken Flavor)",
     image: "/images/cat-food.png",
-    price: "$15.99",
+    price: 15.99,
     category: "cat-food",
     description:
       "A delicious and nutritious dry food made with real chicken, providing essential proteins and nutrients for your cat's health.",
@@ -49,7 +49,7 @@ const products = [
     id: 2,
     title: "Clumping Cat Litter (Lavender Scent)",
     image: "/images/cat-litter.png",
-    price: "$12.99",
+    price: 12.99,
     category: "cat-litter",
     description:
       "Highly absorbent clumping litter with a refreshing lavender scent to control odors and make cleanup easy.",
@@ -59,7 +59,7 @@ const products = [
     id: 3,
     title: "Stylish Cat Collar (Red)",
     image: "/images/cat-collar.png",
-    price: "$8.99",
+    price: 8.99,
     category: "cat-collar",
     description:
       "A fashionable and comfortable cat collar made with durable materials, featuring a secure buckle and a stylish red design.",
@@ -69,7 +69,7 @@ const products = [
     id: 4,
     title: "Cozy Cat Bed (Plush Grey)",
     image: "/images/cat-accessories.png",
-    price: "$25.99",
+    price: 25.99,
     category: "cat-accessories",
     description:
       "A super soft and plush cat bed in a calming grey color, providing the perfect spot for your cat to relax and sleep.",
@@ -79,7 +79,7 @@ const products = [
     id: 5,
     title: "Ocean Delight Cat Food (Salmon Flavor)",
     image: "/images/cat-food.png",
-    price: "$15.99",
+    price: 15.99,
     category: "cat-food",
     description:
       "A premium dry food made with real salmon, rich in omega fatty acids for a healthy coat and overall well-being.",
@@ -89,7 +89,7 @@ const products = [
     id: 6,
     title: "Ultra Odor Control Cat Litter",
     image: "/images/cat-litter.png",
-    price: "$12.99",
+    price: 12.99,
     category: "cat-litter",
     description:
       "A powerful odor-control cat litter designed to neutralize even the strongest smells, keeping your home fresh and clean.",
@@ -99,7 +99,7 @@ const products = [
     id: 7,
     title: "Adjustable Cat Collar (Blue)",
     image: "/images/cat-collar.png",
-    price: "$8.99",
+    price: 8.99,
     category: "cat-collar",
     description:
       "A practical and adjustable cat collar in a vibrant blue color, ensuring a comfortable fit for your growing cat.",
@@ -109,13 +109,14 @@ const products = [
     id: 8,
     title: "Scratching Post (Cardboard)",
     image: "/images/cat-accessories.png",
-    price: "$25.99",
+    price: 25.99,
     category: "cat-accessories",
     description:
       "A durable cardboard scratching post that helps your cat groom their claws and prevents them from scratching furniture.",
     slug: "scratching-post-cardboard",
   },
 ];
+
 //
 const posts = [
   {
@@ -250,7 +251,7 @@ export default function Home() {
       <FeaturedCategory categories={categories} />
 
       {/*  */}
-      <FeaturesProducts products={products} />
+      <FeaturedProducts products={products} />
 
       {/*  */}
       <CatFoodProducts products={products} />

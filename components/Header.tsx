@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import {
@@ -11,8 +13,11 @@ import {
 import Image from "next/image";
 import Hamburger from "@/components/Hamberger";
 import SearchBar from "./SearchBar";
+import { useCart } from "@/context/CartContext";
 
 export default function Header() {
+  const { cartCount } = useCart();
+
   return (
     <>
       {/* Top bar */}
@@ -23,7 +28,7 @@ export default function Header() {
             <Link href="tel:+8801854666866">
               <div className="flex gap-1 items-center">
                 <Call color="#eee" variant="Bold" size={16} />
-                <p >01854666866</p>
+                <p>01854666866</p>
               </div>
             </Link>
             <div className="hidden md:block">|</div>
@@ -77,10 +82,16 @@ export default function Header() {
             </div>
           </Link>
 
+          {/* cart */}
           <Link href="/cart">
-            <div className="border rounded-full py-2 px-3 flex items-center gap-2">
+            <div className=" relative border rounded-full py-2 px-3 flex items-center gap-2">
               <ShoppingCart color="#101010" variant="Bold" size={16} />
               <p className="hidden lg:flex">Cart</p>
+              {cartCount > 0 && (
+                <span className=" bg-red-500 text-white text-[10px] leading-tight px-1 py-0.5   rounded-full ">
+                  {cartCount}
+                </span>
+              )}
             </div>
           </Link>
         </div>
@@ -92,7 +103,7 @@ export default function Header() {
           {/* Desktop Navigation */}
 
           <div className="hidden md:hidden lg:flex space-x-3">
-          <Link
+            <Link
               href="/shop"
               className="px-3 py-2 hover:bg-slate-100 rounded-full"
             >
@@ -135,9 +146,9 @@ export default function Header() {
           </div>
 
           {/* Search Bar */}
-        <div className=" flex lg:hidden w-full sm:w-full">
-          <SearchBar />
-        </div>
+          <div className=" flex lg:hidden w-full sm:w-full">
+            <SearchBar />
+          </div>
         </div>
       </div>
     </>

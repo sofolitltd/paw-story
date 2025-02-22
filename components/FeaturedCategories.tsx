@@ -17,7 +17,7 @@ const FeaturedCategory: React.FC<FeaturedCategoryProps> = ({ categories }) => {
   return (
     <div className="container mx-auto py-4 my-8">
       <h2 className="text-md text-center font-medium mb-1 text-gray-400">PAW STORY EXCLUSIVE</h2>
-      <h2 className="text-2xl text-center font-semibold mb-8">FEATURED</h2>
+      <h2 className="text-2xl text-center font-semibold mb-8">FEATURED CATEGORIES</h2>
 
       <div className="flex overflow-x-auto gap-4 scrollbar-hide snap-x snap-mandatory">
         {categories.map((category) => (
