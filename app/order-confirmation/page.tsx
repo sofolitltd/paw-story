@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type FormData = {
   firstName: string | null;
@@ -32,9 +32,7 @@ type OrderDetails = {
   orderTime: string;
 };
 
-
 const ConfirmOrderPage = () => {
-  const router = useRouter();
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const ConfirmOrderPage = () => {
       console.error("Error parsing cart data:", error);
     }
 
-    const orderData: Omit<OrderDetails, 'orderNo' | 'orderTime'> = {
+    const orderData: Omit<OrderDetails, "orderNo" | "orderTime"> = {
       formData: {
         firstName: params.get("firstName"),
         lastName: params.get("lastName"),
@@ -80,106 +78,143 @@ const ConfirmOrderPage = () => {
   }
 
   return (
-    <div className="py-12 bg-gradient-to-r from-blue-50 to-indigo-100 min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white p-10 rounded-lg shadow-lg space-y-8">
-        <h1 className="text-4xl font-extrabold text-center text-indigo-700 mb-6">
-          Order Confirmation
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 py-8 lg:py-20">
+      {/* left dev */}
+      <div className="justify-center item-center ">
+        <h1 className="text-3xl font-extrabold text-start mb-4">
+          Thank you for your
+          <br /> Purchase!
         </h1>
+        <p className="text-sm">
+          Your order will be processed within 24 hours. <br />
+          We will notify you soon.
+        </p>
 
-        {/* Order Details Card */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-indigo-700">Order Information</h2>
-          <div className="flex justify-between items-center mt-4">
-            <div>
-              <p className="text-indigo-600">
-                <strong>Order No:</strong> {orderDetails.orderNo}
-              </p>
-              <p className="text-indigo-600">
-                <strong>Order Time:</strong> {orderDetails.orderTime}
+        {/* billing */}
+        <div className=" mt-10">
+          <h2 className="text-md font-semibold text-gray-800">
+            Billing Information
+          </h2>
+
+          {/*  */}
+          <div className="mt-4 space-y-2 text-sm">
+            <div className="flex ">
+              <p className="w-20">Name:</p>
+              <p>
+                {orderDetails.formData.firstName}{" "}
+                {orderDetails.formData.lastName}
               </p>
             </div>
-            <div>
-              <span className="text-green-600 font-semibold text-lg">Status: Confirmed</span>
+
+            <div className="flex">
+              <p className="w-20">Email:</p>
+              <p>{orderDetails.formData.email}</p>
+            </div>
+
+            <div className="flex">
+              <p className="w-20">Phone:</p>
+              <p>{orderDetails.formData.mobile}</p>
+            </div>
+
+            <div className="flex">
+              <p className="w-20">Address:</p>
+              <p>
+                {orderDetails.formData.street}, {orderDetails.formData.district}
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Billing Information Card */}
-        <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-gray-800">Billing Information</h2>
-          <div className="mt-4 space-y-3">
-            <p><strong>Name:</strong> {orderDetails.formData.firstName} {orderDetails.formData.lastName}</p>
-            <p><strong>Email:</strong> {orderDetails.formData.email}</p>
-            <p><strong>Phone:</strong> {orderDetails.formData.mobile}</p>
-            <p><strong>Address:</strong> {orderDetails.formData.street}, {orderDetails.formData.district}</p>
-            {orderDetails.formData.notes && (
-              <p><strong>Notes:</strong> {orderDetails.formData.notes}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Order Summary Card */}
-        <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-gray-800">Order Summary</h2>
-          <div className="mt-4 space-y-4">
-            {orderDetails.cart.map((item) => (
-              <div key={item.slug} className="flex justify-between items-center py-4 border-b">
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    width={50}
-                    height={50}
-                    className="rounded-md"
-                  />
-                  <div>
-                    <p className="font-semibold text-gray-800">{item.title}</p>
-                    <p className="text-gray-500">৳ {item.price.toFixed(2)} × {item.quantity}</p>
-                  </div>
-                </div>
-                <p className="text-lg font-semibold text-gray-800">৳ {(item.price * item.quantity).toFixed(2)}</p>
+          {/*  */}
+          <div className="flex gap-4 mt-6 ">
+            <Link href="/profile">
+              <div className="border rounded-md px-6 py-2 w-fit bg-red-500 text-white">
+                Dashboard
               </div>
-            ))}
+            </Link>
+
+            <Link href="/">
+              <div className="border rounded-md px-6 py-2 w-fit">
+                Continue Shopping
+              </div>
+            </Link>
           </div>
-        </div>
-
-        {/* Pricing & Payment Info Card */}
-        <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-gray-800">Pricing & Payment</h2>
-          <div className="mt-4 space-y-2">
-            <div className="flex justify-between text-gray-600">
-              <p>Total Price</p>
-              <p>৳ {orderDetails.totalPrice.toFixed(2)}</p>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <p>Shipping Charge</p>
-              <p>৳ 5.99</p>
-            </div>
-            <div className="flex justify-between text-gray-800 font-semibold text-lg border-t pt-2">
-              <p>Grand Total</p>
-              <p>৳ {orderDetails.grandTotal.toFixed(2)}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Payment Method Card */}
-        <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-gray-800">Payment Method</h2>
-          <p className="mt-4 text-gray-600">
-            {orderDetails.paymentMethod === "cash" ? "Cash on Delivery" : "bKash"}
-          </p>
-        </div>
-
-        {/* Back to Home Button */}
-        <div className="text-center">
-          <button
-            onClick={() => router.push("/")}
-            className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition duration-300"
-          >
-            Back to Home
-          </button>
         </div>
       </div>
+ <div className="border rounded-xl shadow-md px-6 py-8 mt-6 lg:mt-0">
+        <h2 className="text-xl font-semibold leading-tight">Order Summary</h2>
+
+        {/*order info */}
+        <div className=" grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-0 justify-between mt-4 border-t border-b border-dotted py-4 text-sm">
+          {/* 1 */}
+          <div>
+            <p className="text-sm text-gray-500 mb-1">Order Number</p>
+            <p>{orderDetails.orderNo}</p>
+          </div>
+
+          {/* 2 */}
+          <div className="">
+            <p className="text-sm text-gray-500 mb-1">Date</p>
+            <p>{orderDetails.orderTime}</p>
+          </div>
+
+          {/* 3 */}
+          <div className="">
+            <p className="text-sm text-gray-500 mb-1">Payment Method</p>
+            <p>
+              {orderDetails.paymentMethod === "cash"
+                ? "Cash on Delivery"
+                : "bKash"}
+            </p>
+          </div>
+        </div>
+
+        {/* cart  info*/}
+        <div className=" space-y-4">
+          {orderDetails.cart.map((item) => (
+            <div
+              key={item.slug}
+              className="flex justify-between items-center py-4 border-b"
+            >
+              <div className="flex items-center gap-4">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  width={50}
+                  height={50}
+                  className="rounded-md"
+                />
+                <div className="text-sm">
+                  <p className="">{item.title}</p>
+                  <p className="text-gray-500">
+                    ৳ {item.price.toFixed(2)} × {item.quantity}
+                  </p>
+                </div>
+              </div>
+              <p className="text-md font-semibold text-gray-800">
+                ৳ {(item.price * item.quantity).toFixed(2)}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* price info */}
+        <div className="mt-4 space-y-2 ">
+          <div className="flex justify-between text-gray-600">
+            <p className="text-sm">Subtotal</p>
+            <p>৳ {orderDetails.totalPrice.toFixed(2)}</p>
+          </div>
+          <div className="flex justify-between text-gray-600">
+            <p className="text-sm">Shipping</p>
+            <p>৳ 5.99</p>
+          </div>
+          <div className="flex justify-between text-gray-800  font-semibold text-md border-t pt-2">
+            <p>Order Total</p>
+            <p>৳ {orderDetails.grandTotal.toFixed(2)}</p>
+          </div>
+        </div>
+      </div>
+      {/*  right div*/}
+     
     </div>
   );
 };

@@ -180,7 +180,7 @@ export default async function ProductDetailsPage({ params }: Props) {
         {filteredProducts.map((product) => (
           <div
             key={product.slug}
-            className="relative bg-white rounded-lg hover:shadow-md border group flex flex-col"
+            className="relative bg-white rounded-lg  border group flex flex-col"
           >
             {/* Product Link */}
             <Link href={`/product/${product.slug}`} className="block flex-grow">

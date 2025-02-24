@@ -143,6 +143,7 @@ export default function CheckoutPage() {
   
     // Navigate to the confirmation page with query parameters
     router.push(`/order-confirmation?${queryParams}`);
+    
   };
   
   

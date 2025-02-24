@@ -2,11 +2,11 @@ import React from "react";
 import Image from "next/image";
 import { Metadata } from "next";
 import AddToCart from "@/components/AddToCart";
+import FeaturesProducts from "@/components/FeaturedProducts";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
-
 
 //
 const products = [
@@ -92,7 +92,6 @@ const products = [
   },
 ];
 
-
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
@@ -135,28 +134,35 @@ export default async function ProductDetails({ params }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-      <Image
-        src={product.image}
-        alt={product.title}
-        height={400}
-        width={400}
-      ></Image>
+    <div className="">
 
-      <div className="">
-        <h1 className="text-lg font-bold mt-2 mb-2">{product.title}</h1>
-        <p className="text-sm font-normal mb-4">{product.description}</p>
+      {/*  */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+        <Image
+          src={product.image}
+          alt={product.title}
+          height={400}
+          width={400}
+        ></Image>
 
-        <p className="text-lg font-bold mb-4">{product.price}</p>
+        <div className="">
+          <h1 className="text-lg font-bold mt-2 mb-2">{product.title}</h1>
+          <p className="text-sm font-normal mb-4">{product.description}</p>
 
-        <p className="text-sm font-normal mb-6">
-          Categorries: {product.category}
-        </p>
+          <p className="text-xl font-bold mb-4"> ৳{" "}{product.price}</p>
 
-        {/*  */}
-        <AddToCart product={product} fullWidth={false}/>
-        
+          <p className="text-sm font-normal mb-6">
+            Categorries: {product.category}
+          </p>
+
+          {/*  */}
+          <AddToCart product={product} fullWidth={false} />
+        </div>
       </div>
+
+      {/*  */}
+      <div className=" h-8 lg:h-12"></div>
+      <FeaturesProducts products={products}/>
     </div>
   );
 }

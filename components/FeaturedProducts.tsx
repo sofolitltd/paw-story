@@ -69,7 +69,7 @@ const FeaturesProducts: React.FC<ProductSliderProps> = ({ products }) => {
           {products.map((product) => (
             <div
               key={product.slug}
-              className="relative bg-white rounded-lg hover:shadow-md border group flex flex-col"
+              className="relative bg-white rounded-lg  border group flex flex-col"
             >
               {/* Product Link */}
               <Link

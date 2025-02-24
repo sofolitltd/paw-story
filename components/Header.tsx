@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 import {
   Location,
-  Truck,
   Call,
   Facebook,
   ShoppingCart,
@@ -38,13 +37,7 @@ export default function Header() {
                 <p>Our Location</p>
               </div>
             </Link>
-            <div className="hidden md:block">|</div>
-            <Link href="/track-order">
-              <div className="flex gap-1 items-center">
-                <Truck color="#eee" variant="Bold" size={16} />
-                <p>Track Order</p>
-              </div>
-            </Link>
+         
           </div>
 
           {/* Social */}
@@ -57,7 +50,7 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <div className="container mx-auto max-w-7xl py-4 px-4  flex justify-between items-center gap-3">
+      <div className="container mx-auto max-w-7xl py-4 px-4  flex justify-between items-center gap-3 ">
         {/* hamberger */}
         <div className="flex md:flex lg:hidden">
           <Hamburger />
@@ -98,7 +91,7 @@ export default function Header() {
       </div>
 
       {/* Navigation Bar */}
-      <div className="w-full border">
+      <div className="w-full border-t lg:border-y">
         <div className="px-4 lg:px-0 py-2 flex container mx-auto max-w-7xl gap-2 items-center justify-between">
           {/* Desktop Navigation */}
 
