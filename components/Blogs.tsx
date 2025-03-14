@@ -2,7 +2,9 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
-import { POST_QUERY } from "@/sanity/lib/queries";
+import { BLOG_QUERY } from "@/sanity/lib/blog_queries";
+import { urlFor } from "@/sanity/lib/image";
+import { format } from "date-fns";
 
 interface BlogPost {
   _id: string;
@@ -10,7 +12,7 @@ interface BlogPost {
   slug: { current: string };
   description: string;
   image: string;
-  category: {name: string};
+  category: { name: string };
   _createdAt: string;
 }
 
@@ -19,8 +21,8 @@ interface BlogsProps {
 }
 
 const Blogs: React.FC<BlogsProps> = async ({ limit }) => {
-    const posts = await client.fetch(POST_QUERY);
-  const displayedPosts = limit ? posts.slice(0, limit) : posts;
+  const blogs = await client.fetch(BLOG_QUERY);
+  const displayedBlogs = limit ? blogs.slice(0, limit) : blogs;
 
   return (
     <div className="mt-8">
@@ -28,34 +30,38 @@ const Blogs: React.FC<BlogsProps> = async ({ limit }) => {
         STAY WITH US
       </h2>
       <h2 className="text-2xl text-center font-semibold mb-8">
-        OUR LATEST NEWS 
+        OUR LATEST NEWS
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
-        {displayedPosts.map((post:BlogPost) => (
-          <Link key={post._id} href={`/blog/${post.slug.current}`} className="group">
+        {displayedBlogs.map((blog: BlogPost) => (
+          <Link
+            key={blog._id}
+            href={`/blog/${blog.slug.current}`}
+            className="group"
+          >
             <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition border mb-4 relative flex flex-col">
-              <div className="relative w-full h-48">
-                <Image
-                  src={post.image}
-                  alt={post.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-              </div>
+              <Image
+                src={urlFor(blog.image).width(500).url()} // Adjust width as needed
+                alt={blog.name}
+                width={500}
+                height={300}
+                className="rounded-lg object-cover"
+              />
 
               <div className="mt-4">
                 <span className="text-sm text-indigo-600 font-medium">
-                  {post.category?.name}
+                  {blog.category?.name}
                 </span>
                 <h3 className="text-lg font-bold mt-2 group-hover:text-indigo-600 transition">
-                  {post.name}
+                  {blog.name}
                 </h3>
-                <p className="text-gray-600 mt-2 text-sm">{post.description}</p>
+                <p className="text-gray-600 mt-2 text-sm line-clamp-2">{blog.description}</p>
               </div>
 
-              <p className="text-gray-400 text-xs mt-3">{post._createdAt}</p>
+              <p className="text-gray-400 text-sm mt-3">
+                {format(new Date(blog._createdAt), "MMM d yyyy, h:mm a")}
+              </p>
             </div>
           </Link>
         ))}

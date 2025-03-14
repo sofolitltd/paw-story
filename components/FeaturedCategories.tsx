@@ -1,35 +1,50 @@
+// app/featured-categories/page.tsx (or any other route in the app directory)
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { client } from "@/sanity/lib/client"; // Path to your sanity client
+import { CATEGORIES_QUERY } from "@/sanity/lib/product_queries"; // Path to your Sanity query
+import { urlFor } from "@/sanity/lib/image"; // Sanity image URL builder
 
-interface Category {
-  id: number;
+// Type definition for category
+type Category = {
+  _id: string;
   name: string;
-  image: string;
-  slug: string;
-}
+   slug: {
+    current: string; 
+  };
+  description: string;
+  image: {
+    alt?: string;
+  };
+};
 
-interface FeaturedCategoryProps {
-  categories: Category[];
-}
+// Fetch categories directly inside the component (React Server Component)
+const FeaturedCategories = async () => {
+  // Fetch the categories from Sanity
+  const categories: Category[] = await client.fetch(CATEGORIES_QUERY);
 
-const FeaturedCategory: React.FC<FeaturedCategoryProps> = ({ categories }) => {
   return (
     <div className="container mx-auto py-4 my-8">
-      <h2 className="text-md text-center font-medium mb-1 text-gray-400">PAW STORY EXCLUSIVE</h2>
-      <h2 className="text-2xl text-center font-semibold mb-8">FEATURED CATEGORIES</h2>
+      <h2 className="text-md text-center font-medium mb-1 text-gray-400">
+        PAW STORY EXCLUSIVE
+      </h2>
+      <h2 className="text-2xl text-center font-semibold mb-8">
+        FEATURED CATEGORIES
+      </h2>
 
       <div className="flex overflow-x-auto gap-4 scrollbar-hide snap-x snap-mandatory">
         {categories.map((category) => (
           <Link
-            key={category.slug}
-            href={`/product-category/${category.slug}`} // ✅ Correct route
+            key={category._id} // Use _id for unique keys
+            href={`/product-category/${category.slug.current}`} // Correct route
             className="shrink-0 snap-start"
           >
             <div className="size-48 bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition border mb-4 relative flex flex-col items-center justify-center">
               <Image
-                src={category.image}
-                alt={category.name}
+                src={urlFor(category.image).url()} 
+                alt={category.image.alt || category.name} 
                 width={125}
                 height={125}
                 className="object-contain rounded-lg"
@@ -45,4 +60,5 @@ const FeaturedCategory: React.FC<FeaturedCategoryProps> = ({ categories }) => {
   );
 };
 
-export default FeaturedCategory;
+export default FeaturedCategories;
+

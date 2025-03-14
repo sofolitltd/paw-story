@@ -1,7 +1,9 @@
 import { type SchemaTypeDefinition } from 'sanity';
-import { category } from '@/sanity/schemaTypes/category';
-import { posts } from '@/sanity/schemaTypes/posts';
+import { blog } from '@/sanity/schemaTypes/blog';
+import { blogCategory } from '@/sanity/schemaTypes/blog_category';
+import { product } from '@/sanity/schemaTypes/product';
+import { productCategory } from './product_category';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [posts, category],
+  types: [ blogCategory, blog, productCategory, product],
 }
