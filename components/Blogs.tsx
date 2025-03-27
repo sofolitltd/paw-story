@@ -40,7 +40,7 @@ const Blogs: React.FC<BlogsProps> = async ({ limit }) => {
             href={`/blog/${blog.slug.current}`}
             className="group"
           >
-            <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition border mb-4 relative flex flex-col">
+            <div className="bg-white p-4 rounded-lg hover:shadow-lg transition border border-slate-300 mb-4 relative flex flex-col">
               <Image
                 src={urlFor(blog.image).width(500).url()} // Adjust width as needed
                 alt={blog.name}

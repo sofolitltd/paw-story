@@ -34,16 +34,7 @@ export default async function BlogPostPage({
         {/* Left Column (Blog Details) */}
         <div className="md:col-span-2">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-4">{blog.name}</h1>
-            <div className="mb-4 text-gray-600">
-              <span className="mr-4 border px-2 py-1 bg-indigo-400 text-white rounded-md">
-                {blog.category?.name}
-              </span>
-              <span>
-                {format(new Date(blog._createdAt), "MMM d yyyy, h:mm a")}
-              </span>
-            </div>
-            <div className="relative mt-10 mb-6">
+          <div className="relative mb-6">
               <Image
                 src={urlFor(blog.image).width(500).url()} 
                 alt={blog.name}
@@ -52,14 +43,24 @@ export default async function BlogPostPage({
                 className="rounded-lg object-cover"
               />
             </div>
-            <div className="prose lg:prose-xl">{blog.description}</div>
+            <h1 className="text-2xl font-bold mb-4">{blog.name}</h1>
+            <div className="mb-4 text-gray-600">
+              <span className=" text-sm mr-4 border border-slate-300 px-2 py-1 bg-indigo-400 text-white rounded-full">
+                {blog.category?.name}
+              </span>
+              <span>
+                {format(new Date(blog._createdAt), "MMM d yyyy")}
+              </span>
+            </div>
+           
+            <div className="prose lg:prose-xl mt-10">{blog.description}</div>
           </div>
         </div>
 
         {/* Right Column (Recent Posts) */}
         <div className="md:col-span-1">
-          <div className="bg-white p-4 border rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold pb-2 mb-2 border-b">Recent Posts</h2>
+          <div className="bg-white p-4 border border-slate-300 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold pb-2 mb-2 border-b border-slate-300">Recent Posts</h2>
             <ul>
               {recentBlogs.map((recentBlog) => (
                 <li
@@ -70,16 +71,16 @@ export default async function BlogPostPage({
                     href={`/blog/${recentBlog.slug.current}`}
                     className="block hover:bg-slate-100 rounded-md"
                   >
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-3 items-center">
                       <Image
-                        src={urlFor(recentBlog.image).width(80).url()}
+                        src={urlFor(recentBlog.image).width(80).height(60).url()}
                         alt={recentBlog.name}
                         width={80}
                         height={80}
-                        className="object-cover rounded-lg border"
+                        className="object-cover rounded-lg border size-16"
                       />
                       <div>
-                        <h1 className="font-medium">{recentBlog.name}</h1>
+                        <h1 className="font-medium line-clamp-2">{recentBlog.name}</h1>
                         <p className="text-sm text-gray-500">
                           {format(
                             new Date(recentBlog._createdAt),

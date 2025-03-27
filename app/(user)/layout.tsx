@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import { CartProvider } from "@/context/CartContext";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import { Lato } from "next/font/google";
 
@@ -25,15 +26,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={lato.className}>
-        <CartProvider>
-          <Header />
-          <div className="container mx-auto max-w-7xl p-4">{children}</div>
-          <Footer />
-          <CartDrawer />
-        </CartProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
+
+        <body className={lato.className}>
+          <CartProvider>
+            <Header />
+            <div className="container mx-auto max-w-7xl p-4">{children}</div>
+            <Footer />
+            <CartDrawer />
+          </CartProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

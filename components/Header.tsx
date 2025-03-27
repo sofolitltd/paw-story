@@ -1,21 +1,19 @@
-"use client";
+// "use client";
 
 import Link from "next/link";
 import React from "react";
-import {
-  Location,
-  Call,
-  Facebook,
-  ShoppingCart,
-  Profile,
-} from "iconsax-react";
+import { Location, Call, Facebook, ShoppingCart, Profile } from "iconsax-react";
 import Image from "next/image";
 import Hamburger from "@/components/Hamberger";
 import SearchBar from "./SearchBar";
-import { useCart } from "@/context/CartContext";
+// import { useCart } from "@/context/CartContext";
+import { currentUser } from "@clerk/nextjs/server";
+import { ClerkLoaded, SignedIn, SignInButton, UserButton } from "@clerk/nextjs";
 
-export default function Header() {
-  const { cartCount } = useCart();
+export default async function Header() {
+  // const { cartCount } = useCart();
+  const user = await currentUser();
+  // console.log(user), "user";
 
   return (
     <>
@@ -37,7 +35,6 @@ export default function Header() {
                 <p>Our Location</p>
               </div>
             </Link>
-         
           </div>
 
           {/* Social */}
@@ -50,7 +47,7 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <div className="container mx-auto max-w-7xl py-4 px-4  flex justify-between items-center gap-3 ">
+      <div className="  container mx-auto max-w-7xl py-4 px-4  flex justify-between items-center gap-3 ">
         {/* hamberger */}
         <div className="flex md:flex lg:hidden">
           <Hamburger />
@@ -68,30 +65,42 @@ export default function Header() {
 
         {/* Profile & Cart */}
         <div className="flex gap-3">
-          <Link href="/customer/profile">
-            <div className="border rounded-full py-2 px-3 flex items-center gap-2">
-              <Profile color="#101010" variant="Bold" size={16} />
-              <p className="hidden lg:flex">Profile</p>
-            </div>
-          </Link>
-
           {/* cart */}
           <Link href="/cart">
-            <div className=" relative border rounded-full py-2 px-3 flex items-center gap-2">
+            <div className=" relative border border-slate-300 rounded-full py-2 px-3 flex items-center gap-2">
               <ShoppingCart color="#101010" variant="Bold" size={16} />
               <p className="hidden lg:flex">Cart</p>
-              {cartCount > 0 && (
+              {/* {cartCount > 0 && (
                 <span className=" bg-red-500 text-white text-[10px] leading-tight px-1 py-0.5   rounded-full ">
                   {cartCount}
                 </span>
-              )}
+              )} */}
             </div>
           </Link>
+          {/*  */}
+          <ClerkLoaded>
+            {/*  */}
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+
+            {!user && (
+              <SignInButton mode="modal">
+                {/*  */}
+                <Link href="/">
+                  <div className="border border-slate-300 rounded-full py-2 px-3 flex items-center gap-2">
+                    <Profile color="#101010" variant="Bold" size={16} />
+                    <p className="hidden lg:flex">Profile</p>
+                  </div>
+                </Link>
+              </SignInButton>
+            )}
+          </ClerkLoaded>
         </div>
       </div>
 
       {/* Navigation Bar */}
-      <div className="w-full border-t lg:border-y">
+      <div className="w-full border-t border-slate-300 lg:border-y">
         <div className="px-4 lg:px-0 py-2 flex container mx-auto max-w-7xl gap-2 items-center justify-between">
           {/* Desktop Navigation */}
 
@@ -139,9 +148,9 @@ export default function Header() {
           </div>
 
           {/* Search Bar */}
-          <div className=" flex lg:hidden w-full sm:w-full">
+          {/* <div className=" flex lg:hidden w-full sm:w-full">
             <SearchBar />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

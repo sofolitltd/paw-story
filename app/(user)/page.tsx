@@ -125,9 +125,6 @@ export default function Home() {
       {/* featured categories */}
       <FeaturedCategory />
 
-      {/*  */}
-      {/* <FeaturedProducts products={products} /> */}
-
       {/* cat food */}
       <CategoryProducts category="cat-food" />
 

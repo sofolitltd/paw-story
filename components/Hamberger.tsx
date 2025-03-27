@@ -23,7 +23,7 @@ export default function Hamburger() {
         } transition-transform duration-300 ease-in-out z-50`}
       >
         {/* Close Button */}
-        <div className="flex justify-between items-center p-4 border-b">
+        <div className="flex justify-between items-center p-4 border-b border-slate-300">
           <Link href="/" onClick={closeDrawer}> {/* Close on logo click */}
             <Image src="/logo.svg" alt="Pwa Story Logo" height={24} width={48} />
           </Link>

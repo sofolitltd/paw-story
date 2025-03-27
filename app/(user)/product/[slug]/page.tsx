@@ -95,7 +95,7 @@ export default async function ProductDetails({
       </div>
 
 
-      <p className=" border-b py-2">Description</p>
+      <p className=" border-b border-slate-300 py-2">Description</p>
       <div className="text-gray-700 mt-5">{renderDescription()}</div>
 
     </div>

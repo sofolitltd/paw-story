@@ -25,7 +25,7 @@ const ProductImageGallery: React.FC<Props> = ({ images, productName }) => {
   return (
     <div className="relative">
       {/* Main Image Display - Centered */}
-      <div className="relative border rounded-xl p-2 mx-auto">
+      <div className="relative border border-slate-300 rounded-xl p-2 mx-auto">
         <Image
           src={selectedImage}
           alt={productName}
@@ -49,7 +49,7 @@ const ProductImageGallery: React.FC<Props> = ({ images, productName }) => {
                 alt={`Thumbnail ${index + 1}`}
                 width={80}
                 height={80}
-                className={` size-16 border rounded-md cursor-pointer transition-all duration-200 ${
+                className={` size-16 border  rounded-md cursor-pointer transition-all duration-200 ${
                   selectedIndex === index ? "border-indigo-500" : "border-gray-300"
                 }`}
               />

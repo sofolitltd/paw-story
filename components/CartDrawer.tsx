@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import { useCart } from "@/context/CartContext";
 import { urlFor } from "@/sanity/lib/image"; // Ensure this function correctly builds URLs
 import { Trash2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import CheckoutButton from "./CheckoutButton";
 
 export default function CartDrawer() {
   const {
@@ -21,7 +22,7 @@ export default function CartDrawer() {
       {/* Overlay */}
       {isCartOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 bg-black/30  z-40"
           onClick={toggleCart}
         />
       )}
@@ -44,17 +45,15 @@ export default function CartDrawer() {
         ) : (
           <>
             {/* Cart Items - Scrollable */}
-            <div className="flex-1 overflow-y-auto max-h-[calc(100vh-180px)] pr-2 border-t-2">
+            <div className="flex-1 overflow-y-auto max-h-[calc(100vh-180px)] pr-2 border-slate-300 border-t-2">
               {cart.map((item) => {
-                const imageUrl = 
-                item.image
-                  ? urlFor(item.image).url() 
-                  : 
-                  "/placeholder.png"; // Use placeholder if no image
-                  console.log("img: " + item.image);
+                const imageUrl = item.image
+                  ? urlFor(item.image).url()
+                  : "/placeholder.png"; // Use placeholder if no image
+                console.log("img: " + item.image);
 
                 return (
-                  <div key={item.slug} className="border-b py-3">
+                  <div key={item.slug} className="border-b border-slate-300 py-3">
                     <div className="flex items-center gap-4">
                       <Image
                         src={imageUrl}
@@ -64,24 +63,28 @@ export default function CartDrawer() {
                         className="rounded-md size-14"
                       />
                       <div className="flex-1">
-                        <p className="text-sm font-semibold line-clamp-2">{item.name}</p>
+                        <p className="text-sm font-semibold line-clamp-2">
+                          {item.name}
+                        </p>
                         <div className="flex w-full justify-between items-center mt-2">
-                          <p className="text-gray-600">৳ {item.price.toFixed(2)}</p>
+                          <p className="text-gray-600">
+                            ৳ {item.price.toFixed(2)}
+                          </p>
                           <div className="flex gap-4">
                             {/* Quantity Controls */}
                             <div className="flex items-center">
                               <button
                                 onClick={() => decreaseQuantity(item.slug)}
-                                className="border w-8"
+                                className="border border-slate-300 w-8"
                               >
                                 -
                               </button>
-                              <span className="text-center border-y min-w-10">
+                              <span className="text-center border-y border-slate-300 min-w-10">
                                 {item.quantity}
                               </span>
                               <button
                                 onClick={() => increaseQuantity(item.slug)}
-                                className="border w-8"
+                                className="border border-slate-300 w-8"
                               >
                                 +
                               </button>
@@ -104,7 +107,7 @@ export default function CartDrawer() {
             </div>
 
             {/* Cart Summary (Fixed at Bottom) */}
-            <div className="w-full bg-white border-t-2">
+            <div className="w-full bg-white border-t-2 border-slate-300">
               <div className="flex justify-between text-lg font-bold mt-3">
                 <p>Subtotal:</p>
                 <p>৳ {totalPrice.toFixed(2)}</p>
@@ -118,14 +121,20 @@ export default function CartDrawer() {
                     View Cart
                   </button>
                 </Link>
-                <Link href="/checkout">
+
+                {/* <Link href="/checkout">
                   <button
                     onClick={toggleCart}
                     className="w-full bg-indigo-600 text-white py-2 rounded-md text-center mt-3"
                   >
                     Checkout
                   </button>
-                </Link>
+                </Link> */}
+
+                {/*  */}
+                <div onClick={toggleCart}>
+                  <CheckoutButton />
+                </div>
               </div>
             </div>
           </>

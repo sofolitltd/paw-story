@@ -41,7 +41,7 @@ const FeaturedCategories = async () => {
             href={`/product-category/${category.slug.current}`} // Correct route
             className="shrink-0 snap-start"
           >
-            <div className="size-48 bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition border mb-4 relative flex flex-col items-center justify-center">
+            <div className="size-64 bg-white p-4 rounded-lg  hover:shadow-lg transition border border-slate-300 mb-4 relative flex flex-col items-center justify-center">
               <Image
                 src={urlFor(category.image).url()} 
                 alt={category.image.alt || category.name} 
@@ -49,8 +49,8 @@ const FeaturedCategories = async () => {
                 height={125}
                 className="object-contain rounded-lg"
               />
-              <h3 className="text-center font-bold transition mt-2">
-                {category.name}
+              <h3 className="text-center text-2xl font-bold transition mt-2">
+                {category.name.toUpperCase()}
               </h3>
             </div>
           </Link>

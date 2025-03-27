@@ -101,7 +101,7 @@ export default async function Shop() {
         {products.map((product) => (
           <div
             key={product._id}
-            className="relative bg-white rounded-lg border group flex flex-col"
+            className="relative bg-white rounded-lg border border-slate-300 group flex flex-col"
           >
             {/* Product Link */}
             <Link
@@ -110,11 +110,11 @@ export default async function Shop() {
             >
               <div className="bg-slate-50 group-hover:bg-[#F6EEE4] transition-colors duration-300 rounded-tl-md rounded-tr-md overflow-hidden p-4">
                 <Image
-                  src={urlFor(product.images[0].asset._ref).width(500).url()}
+                  src={urlFor(product.images[0].asset._ref).url()}
                   alt={product.images[0]?.alt || product.name}
-                  width={200}
-                  height={200}
-                  className="object-cover w-full"
+                  width={500}
+                  height={500}
+                  className="object-cover w-full h-60"
                 />
               </div>
               <div className="p-3">

@@ -26,9 +26,12 @@ const CategoryProducts = async ({ category }: { category: string }) => {
       </div>
 
       {products.length === 0 ? (
-        <p className="text-center text-gray-500">
+        <div className="flex flex-col min-h-64 w-full  text-center justify-center items-center">
+           <p className=" text-gray-500 ">
           No products found in this category.
         </p>
+        </div>
+       
       ) : (
         <ProductCarousel products={products} />
       )}
