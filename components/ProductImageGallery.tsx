@@ -18,21 +18,23 @@ interface Props {
 const ProductImageGallery: React.FC<Props> = ({ images, productName }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const selectedImage = urlFor(images[selectedIndex]?.asset?._ref)
-    .width(300)
-    .url();
+  const selectedImage = urlFor(images[selectedIndex]?.asset?._ref).url();
 
   return (
     <div className="relative">
       {/* Main Image Display - Centered */}
       <div className="relative border border-slate-300 rounded-xl p-2 mx-auto">
-        <Image
-          src={selectedImage}
-          alt={productName}
-          width={300}
-          height={300}
-          className="object-cover rounded-lg mx-auto h-60 lg:h-80"
-        />
+        <div className="relative w-full h-96">
+          <Image
+            src={selectedImage}
+            alt={productName}
+            // width={300}
+            // height={300}
+            layout="fill"
+            objectFit="contain" // Maintain aspect ratio
+            className="absolute inset-0 mx-auto my-auto"
+          />
+        </div>
       </div>
 
       {/* Image Grid Thumbnails - Scrollable */}
@@ -45,12 +47,14 @@ const ProductImageGallery: React.FC<Props> = ({ images, productName }) => {
               className="relative"
             >
               <Image
-                src={urlFor(img.asset?._ref).width(80).url()}
+                src={urlFor(img.asset?._ref).url()}
                 alt={`Thumbnail ${index + 1}`}
                 width={80}
                 height={80}
                 className={` size-16 border  rounded-md cursor-pointer transition-all duration-200 ${
-                  selectedIndex === index ? "border-indigo-500" : "border-gray-300"
+                  selectedIndex === index
+                    ? "border-indigo-500"
+                    : "border-gray-300"
                 }`}
               />
               {selectedIndex === index && (

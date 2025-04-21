@@ -10,6 +10,9 @@ import { client } from "@/sanity/lib/client";
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
 
+import { useRouter } from "next/navigation";
+
+
 const bangladeshDistricts = [
   "Dhaka", // 1
   "Faridpur", // 2
@@ -113,6 +116,8 @@ export default function CheckoutPage() {
     city: "",
     district: "",
   });
+  const router = useRouter();
+
 
   // Handle form input changes
   const handleInputChange = (
@@ -244,7 +249,13 @@ export default function CheckoutPage() {
 
     try {
       await client.create(newOrder);
-      alert("Order placed successfully!");
+      // alert("Order placed successfully!");
+      //
+        // Go to success page with order info
+  const encoded = encodeURIComponent(JSON.stringify(newOrder));
+  router.push(`/order/success?order=${encoded}`);
+      
+
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Failed to place order. Please try again.");
@@ -317,7 +328,8 @@ export default function CheckoutPage() {
 
               {isLoading ? (
                 <p className="text-gray-500 mt-4">Loading addresses...</p>
-              ) : userData?.addresses.length === 0 ? (
+              ) : (userData?.addresses?.length ?? 0) === 0
+              ? (
                 <p className="text-gray-500 mt-4">
                   No shipping address found. Please add your address.
                 </p>

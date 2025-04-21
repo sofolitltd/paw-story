@@ -109,13 +109,16 @@ export default async function Shop() {
               className="block flex-grow"
             >
               <div className="bg-slate-50 group-hover:bg-[#F6EEE4] transition-colors duration-300 rounded-tl-md rounded-tr-md overflow-hidden p-4">
-                <Image
-                  src={urlFor(product.images[0].asset._ref).url()}
-                  alt={product.images[0]?.alt || product.name}
-                  width={500}
-                  height={500}
-                  className="object-cover w-full h-60"
-                />
+                <div className="relative w-full h-48">
+                  {/* Ensure the image is centered and does not overflow */}
+                  <Image
+                    src={urlFor(product.images?.[0]?.asset?._ref).url()}
+                    alt={product.images?.[0]?.alt || product.name}
+                    layout="fill"
+                    objectFit="contain" // Maintain aspect ratio
+                    className="absolute inset-0 mx-auto my-auto"
+                  />
+                </div>
               </div>
               <div className="p-3">
                 <h3 className="text-sm font-semibold line-clamp-2">
