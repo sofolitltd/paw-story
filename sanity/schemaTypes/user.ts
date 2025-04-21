@@ -87,6 +87,9 @@ export const user = defineType({
                     name: "address",
                     title: "Address",
                     fields: [
+                        defineField({ name: "name", type: "string", title: "Full Name" }),
+                        defineField({ name: "mobile", type: "string", title: "Mobile" }),
+                        defineField({ name: "email", type: "string", title: "Email" }),
                         defineField({ name: "street", type: "string", title: "Street" }),
                         defineField({ name: "city", type: "string", title: "City" }),
                         defineField({
@@ -101,6 +104,19 @@ export const user = defineType({
                             },
                         }),
                     ],
+                    preview: {
+                        select: {
+                            name: "name",        // Select the 'name' field for title
+                            street: "street",    // Select the 'street' field for address
+                            district: "district", // Select the 'district' field for address
+                        },
+                        prepare({ name, street, district }) {
+                            // Use the 'name' field and combine with street/district for title
+                            return {
+                                title: name ? `${name} - ${street || "No Street"} - ${district || "No District"}` : "No Name",
+                            };
+                        },
+                    },
                 },
             ],
         }),

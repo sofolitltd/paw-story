@@ -11,7 +11,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="relative bg-white rounded-lg border border-slate-300 group flex flex-col h-full w-[240px]">
+    <div className="relative bg-white rounded-lg border border-slate-300 group flex flex-col h-full w-[250px]">
       {" "}
       {/* Fixed width here */}
       <Link

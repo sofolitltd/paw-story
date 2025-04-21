@@ -5,7 +5,7 @@ import React from "react";
 import { Location, Call, Facebook, ShoppingCart, Profile } from "iconsax-react";
 import Image from "next/image";
 import Hamburger from "@/components/Hamberger";
-import SearchBar from "./SearchBar";
+// import SearchBar from "./SearchBar";
 // import { useCart } from "@/context/CartContext";
 import { currentUser } from "@clerk/nextjs/server";
 import { ClerkLoaded, SignedIn, SignInButton, UserButton } from "@clerk/nextjs";
@@ -59,9 +59,9 @@ export default async function Header() {
         </Link>
 
         {/* Search Bar */}
-        <div className="hidden md:hidden lg:flex">
+        {/* <div className="hidden md:hidden lg:flex">
           <SearchBar />
-        </div>
+        </div> */}
 
         {/* Profile & Cart */}
         <div className="flex gap-3">

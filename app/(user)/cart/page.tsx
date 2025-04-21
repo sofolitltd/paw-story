@@ -16,8 +16,6 @@ export default function CartPage() {
     totalPrice,
   } = useCart();
 
-  const DELIVERY_CHARGE = 50;
-  const grandTotal = totalPrice + DELIVERY_CHARGE;
 
   return (
     <div className="py-8">
@@ -93,25 +91,14 @@ export default function CartPage() {
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               <div className="flex justify-between mb-2">
                 <p>Subtotal</p>
-                <p>৳ {totalPrice.toFixed(2)}</p>
+                <p>৳ {totalPrice.toFixed(0)}</p>
               </div>
-              <div className="flex justify-between mb-2">
-                <p>Delivery Charge</p>
-                <p>৳ {DELIVERY_CHARGE.toFixed(2)}</p>
-              </div>
+      
               <hr className="my-2 border-slate-300" />
               <div className="flex justify-between font-bold text-lg">
                 <p>Total</p>
-                <p>৳ {grandTotal.toFixed(2)}</p>
+                <p>৳ {totalPrice.toFixed(0)}</p>
               </div>
-
-              {/*  */}
-              {/* <button
-                onClick={() => router.push("/checkout")}
-                className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
-              >
-                Proceed to Checkout
-              </button> */}
 
               {/*  */}
               <CheckoutButton/>
