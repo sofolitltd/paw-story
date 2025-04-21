@@ -73,11 +73,9 @@ export const user = defineType({
     title: "User",
     fields: [
         defineField({ name: "userID", type: "string", title: "User ID" }),
-        defineField({ name: "firstName", type: "string", title: "First Name" }),
-        defineField({ name: "lastName", type: "string", title: "Last Name" }),
+        defineField({ name: "name", type: "string", title: "Full Name" }),
         defineField({ name: "email", type: "string", title: "Email" }),
         defineField({ name: "mobile", type: "string", title: "Mobile" }),
-
 
         defineField({
             name: "addresses",

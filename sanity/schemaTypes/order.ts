@@ -58,12 +58,22 @@ export const order = defineType({
     defineField({
       name: "address",
       title: "Shipping Address",
-      type: "object",
-      fields: [
-        defineField({ name: "street", title: "Street", type: "string" }),
-        defineField({ name: "city", title: "City", type: "string" }),
-        defineField({ name: "district", title: "District", type: "string" }),
-      ],
+      type: "string",
     }),
   ],
+  preview: {
+    select: {
+      title: "name", // Display customer name as the main title
+      subtitle: "date", // Display order date as the subtitle
+      status: "status", // Display order status as part of the preview
+      userID: "userID", // Display user ID as part of the preview
+    },
+    prepare(selection) {
+      const { title, subtitle, status, userID } = selection;
+      return {
+        title: `${userID} - ${title}`, // Show "User ID - Customer Name" as title
+        subtitle: `${new Date(subtitle).toLocaleDateString()} | Status: ${status}`, // Format the date and display status
+      };
+    },
+  },
 });

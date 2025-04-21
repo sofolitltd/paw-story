@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@clerk/nextjs";
 import { client } from "@/sanity/lib/client";
-import { Trash2} from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Link from "next/link";
 
 const bangladeshDistricts = [
@@ -80,8 +80,7 @@ const bangladeshDistricts = [
 type User = {
   _id: string;
   userID: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   mobile: string;
   addresses: Address[];
@@ -104,7 +103,7 @@ export default function CheckoutPage() {
   const { user } = useUser();
   const [userData, setUserData] = useState<User | null>(null);
 
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -149,6 +148,7 @@ export default function CheckoutPage() {
         });
     }
   };
+  
 
   //
   const handleAddAddress = () => {
@@ -199,51 +199,49 @@ export default function CheckoutPage() {
     }
   }, [user]);
 
+
+  // 
   const handlePlaceOrder = async () => {
     if (!user) {
       alert("User not found!");
       return;
     }
-  
-    if (!selectedAddress || selectedAddress.trim() === "") {
+
+    if (!selectedAddress) {
       alert("Please select a shipping address.");
       return;
     }
-  
+
     if (!paymentMethod) {
       alert("Please select a payment method.");
       return;
     }
-  
+
     setIsPlacingOrder(true);
-  
+
     const orderID = uuidv4();
     const invoiceID = `INV-${Date.now()}`;
     const orderDate = new Date().toISOString();
-  
-    const addressDetails = userData?.addresses.find(
-      (addr) => addr._id === selectedAddress
-    );
-  
-    if (!addressDetails) {
-      alert("Selected address not found. Please try again.");
-      setIsPlacingOrder(false);
-      return;
-    }
-  
+
+
+
     const newOrder = {
       _type: "order",
       orderID,
       userID: user.id,
       name: `${user.firstName} ${user.lastName}`,
       total: grandTotal,
-      products: cart.map((item) => item.id),
+      products: cart.map((item) => ({
+        _key: uuidv4(), // Unique key for each product reference
+        _type: "reference",
+        _ref: item.id,  // Reference to the product document
+      })), 
       status: "Pending",
       invoiceID,
       date: orderDate,
-      address: addressDetails,
+      address: `${selectedAddress?.street}, ${selectedAddress?.city}, ${selectedAddress?.district} `,
     };
-  
+
     try {
       await client.create(newOrder);
       alert("Order placed successfully!");
@@ -254,7 +252,6 @@ export default function CheckoutPage() {
       setIsPlacingOrder(false);
     }
   };
-  
 
   return (
     <div className="py-8">
@@ -337,8 +334,11 @@ export default function CheckoutPage() {
                           type="radio"
                           name="selectedAddress"
                           value={address._id}
-                          checked={selectedAddress === address._id}
-                          onChange={() => setSelectedAddress(address._id)}
+                          checked={selectedAddress === address}
+                          onChange={() => {
+                            console.log("Selected Address:", address);
+                            setSelectedAddress(address);
+                          }}
                           className="h-4 w-4"
                         />
                         <div className="flex justify-between w-full">
