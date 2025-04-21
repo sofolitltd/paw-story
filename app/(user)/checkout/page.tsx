@@ -250,12 +250,9 @@ export default function CheckoutPage() {
     try {
       await client.create(newOrder);
       // alert("Order placed successfully!");
-      //
-        // Go to success page with order info
-  const encoded = encodeURIComponent(JSON.stringify(newOrder));
-  router.push(`/order/success?order=${encoded}`);
-      
+      router.push("/order/success");
 
+    
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Failed to place order. Please try again.");
