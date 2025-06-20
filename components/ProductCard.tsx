@@ -39,9 +39,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <p className="text-lg font-bold text-indigo-800">
                 ৳ {product.salePrice}
               </p>
-              <p className="text-base text-indigo-500 line-through">
-                ৳ {product.regularPrice}
-              </p>
+
+              {product.regularPrice && (
+                <p className="text-base text-indigo-500 line-through">
+                  ৳ {product.regularPrice}
+                </p>
+              )}
             </div>
 
             <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hidden group-hover:flex">

@@ -32,7 +32,7 @@ export default function RootLayout({
           <link rel="icon" href="/favicon.ico" sizes="any" />
         </head>
 
-        <body className={lato.className}>
+        <body className={lato.className} suppressHydrationWarning={true}>
           <CartProvider>
             <Header />
             <div className="container mx-auto max-w-7xl p-4">{children}</div>

@@ -10,7 +10,7 @@ interface BlogPost {
   _id: string;
   name: string;
   slug: { current: string };
-  description: string;
+  description: PortableTextBlock[];
   image: string;
   category: { name: string };
   _createdAt: string;
@@ -19,10 +19,39 @@ interface BlogPost {
 interface BlogsProps {
   limit?: number;
 }
+interface PortableTextSpan {
+  _type: "span";
+  text: string;
+}
+
+interface PortableTextBlock {
+  _type: "block";
+  children: PortableTextSpan[];
+}
+
 
 const Blogs: React.FC<BlogsProps> = async ({ limit }) => {
   const blogs = await client.fetch(BLOG_QUERY);
   const displayedBlogs = limit ? blogs.slice(0, limit) : blogs;
+
+  //
+ const getPreviewText = (blocks: PortableTextBlock[]): string => {
+  if (!blocks || !Array.isArray(blocks)) return "";
+
+  return (
+    blocks
+      .filter((block) => block._type === "block")
+      .map((block) =>
+        block.children
+          ?.filter((child) => child._type === "span")
+          .map((span) => span.text)
+          .join("")
+      )
+      .join(" ")
+      .slice(0, 150) + "..."
+  );
+};
+
 
   return (
     <div className="mt-8">
@@ -56,7 +85,11 @@ const Blogs: React.FC<BlogsProps> = async ({ limit }) => {
                 <h3 className="text-lg font-bold mt-2 group-hover:text-indigo-600 transition">
                   {blog.name}
                 </h3>
-                <p className="text-gray-600 mt-2 text-sm line-clamp-2">{blog.description}</p>
+                <p className="text-gray-600 mt-2 text-sm line-clamp-2">
+                  {getPreviewText(blog.description)}
+                </p>
+                
+
               </div>
 
               <p className="text-gray-400 text-sm mt-3">

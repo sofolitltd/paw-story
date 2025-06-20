@@ -38,11 +38,7 @@ export const generateMetadata = async ({
 };
 
 // Product Details Page
-export default async function ProductDetails({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProductDetails({params}: {params: Promise<{ slug: string }>;}) {
   const slug = (await params).slug;
   const product : Product =  await client.fetch(SINGLE_PRODUCT_QUERY, { slug });
 

@@ -20,3 +20,6 @@ export const BLOG_QUERY = defineQuery(`*[_type == 'blog' && defined(slug.current
         image,
         _createdAt,
       }`)
+
+
+  
