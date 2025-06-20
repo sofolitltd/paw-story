@@ -39,10 +39,10 @@ export default async function BlogPostPage({
           <div className="mb-8">
             <div className="relative mb-6">
               <Image
-                src={urlFor(blog.image).width(500).url()}
+                src={urlFor(blog.image).width(1000).url()}
                 alt={blog.name}
-                width={500}
-                height={300}
+                width={1000}
+                height={500}
                 className="rounded-lg object-cover"
               />
             </div>

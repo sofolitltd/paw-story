@@ -71,9 +71,9 @@ const Blogs: React.FC<BlogsProps> = async ({ limit }) => {
           >
             <div className="bg-white p-4 rounded-lg hover:shadow-lg transition border border-slate-300 mb-4 relative flex flex-col">
               <Image
-                src={urlFor(blog.image).width(500).url()} // Adjust width as needed
+                src={urlFor(blog.image).width(600).url()} // Adjust width as needed
                 alt={blog.name}
-                width={500}
+                width={600}
                 height={300}
                 className="rounded-lg object-cover"
               />
